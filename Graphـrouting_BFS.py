@@ -14,14 +14,14 @@ class DynamicGraph:
             self.graph[v] = []
         self.graph[u].append(v)
         self.graph[v].append(u)
-        self.update_paths()
+        self.update_paths_on_addition(u, v)
 
     def remove_edge(self, u, v):
         if u in self.graph and v in self.graph[u]:
             self.graph[u].remove(v)
         if v in self.graph and u in self.graph[v]:
             self.graph[v].remove(u)
-        self.update_paths()
+        self.update_paths_on_removal(u, v)
 
     def bfs(self, start):
         visited = set()
@@ -35,10 +35,20 @@ class DynamicGraph:
                     queue.append(neighbor)
         return visited
 
-    def update_paths(self):
-        self.paths = {}
-        for node in self.graph:
-            self.paths[node] = self.bfs(node)
+    def update_paths_on_addition(self, u, v):
+        if u in self.paths:
+            self.paths[u].update(self.bfs(u))
+        else:
+            self.paths[u] = self.bfs(u)
+        
+        if v in self.paths:
+            self.paths[v].update(self.bfs(v))
+        else:
+            self.paths[v] = self.bfs(v)
+
+    def update_paths_on_removal(self, u, v):
+        self.paths[u] = self.bfs(u)
+        self.paths[v] = self.bfs(v)
 
     def get_paths(self):
         return self.paths

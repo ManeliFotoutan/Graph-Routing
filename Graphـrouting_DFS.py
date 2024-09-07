@@ -13,14 +13,14 @@ class DynamicGraph:
             self.graph[v] = []
         self.graph[u].append(v)
         self.graph[v].append(u)
-        self.update_paths()
+        self.update_paths_on_addition(u, v)
 
     def remove_edge(self, u, v):
         if u in self.graph and v in self.graph[u]:
             self.graph[u].remove(v)
         if v in self.graph and u in self.graph[v]:
             self.graph[v].remove(u)
-        self.update_paths()
+        self.update_paths_on_removal(u, v)
 
     def dfs(self, start, visited=None):
         if visited is None:
@@ -31,10 +31,22 @@ class DynamicGraph:
                 self.dfs(neighbor, visited)
         return visited
 
-    def update_paths(self):
-        self.paths = {}
-        for node in self.graph:
-            self.paths[node] = self.dfs(node)
+    def update_paths_on_addition(self, u, v):
+        # بروزرسانی فقط مسیرهای مرتبط با یال جدید
+        if u in self.paths:
+            self.paths[u].update(self.dfs(u))
+        else:
+            self.paths[u] = self.dfs(u)
+        
+        if v in self.paths:
+            self.paths[v].update(self.dfs(v))
+        else:
+            self.paths[v] = self.dfs(v)
+
+    def update_paths_on_removal(self, u, v):
+        # حذف یال، نیاز به بروزرسانی مسیرهای مرتبط با این دو گره دارد
+        self.paths[u] = self.dfs(u)
+        self.paths[v] = self.dfs(v)
 
     def get_paths(self):
         return self.paths
