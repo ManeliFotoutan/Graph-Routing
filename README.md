@@ -9,7 +9,6 @@ This project implements a dynamic undirected graph that supports:
 - Visualizing the graph using `networkx` and `matplotlib`
 - Command-line user interface for interactive graph modification and visualization
 
----
 
 ## Features
 
@@ -21,7 +20,6 @@ This project implements a dynamic undirected graph that supports:
 
 - **Interactive CLI:** User-friendly command line interface to add/remove edges, view BFS paths, apply or discard changes, save graph images, and exit.
 
----
 
 ## Installation
 
@@ -29,7 +27,7 @@ Make sure Python 3 is installed. Install dependencies:
 ```bash
 pip install matplotlib networkx
 ```
----
+
 ## Usage
 
 Run the script, then choose from the menu options:
@@ -41,8 +39,6 @@ Run the script, then choose from the menu options:
 - **D:** Discard all pending changes
 - **S:** Save the current graph visualization to a PNG file
 - **E:** Exit the program
-
----
 
 ## Code Structure Highlights
 
